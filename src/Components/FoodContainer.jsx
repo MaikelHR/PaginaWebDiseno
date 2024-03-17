@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import FoodList from "./FoodList";
 import Filters from "./Filters";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import FoodDetails from "./FoodDetails";
 
 const FoodContainer = () => {
   const [searchType, setSearchType] = useState("name");
@@ -12,6 +13,11 @@ const FoodContainer = () => {
   const [textBar, setTextBar] = useState("");
   const [ingredient, setIngredient] = useState("");
   const [ingredients, setIngredients] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [foodID, setFoodID] = useState("");
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
 
   const handleFilterChange = (e, filter) => {
     if (filter === "searchType") {
@@ -26,9 +32,12 @@ const FoodContainer = () => {
       setIngredient(e.target.value);
     }
   };
-  
+
   return (
     <Box>
+      <Typography gutterBottom variant="h3" component="div">
+        FoodCard Menu
+      </Typography>
       <Filters
         searchType={searchType}
         category={category}
@@ -48,6 +57,13 @@ const FoodContainer = () => {
         area={area}
         textBar={textBar}
         ingredient={ingredient}
+        setFoodID={setFoodID}
+        setOpen={setOpen}
+      />
+      <FoodDetails
+        handleClose={handleCloseDialog}
+        open={open}
+        foodID={foodID}
       />
     </Box>
   );

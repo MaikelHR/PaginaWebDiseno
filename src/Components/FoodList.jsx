@@ -2,8 +2,21 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import FoodCard from "./FoodCard";
 
-const FoodList = ({ area, category, textBar, ingredient, searchType }) => {
+const FoodList = ({
+  area,
+  category,
+  textBar,
+  ingredient,
+  searchType,
+  setFoodID,
+  setOpen,
+}) => {
   const [foods, setFoods] = useState([]);
+
+  const handleCardClick = (foodID) => {
+    setFoodID(foodID);
+    setOpen(true);
+  };
 
   useEffect(() => {
     let finalURL = "search.php?f=a";
@@ -16,11 +29,9 @@ const FoodList = ({ area, category, textBar, ingredient, searchType }) => {
     } else if (searchType === "ingredient" && ingredient) {
       finalURL = `filter.php?i=${ingredient}`;
     }
-  
+
     async function getFoods() {
-      await fetch(
-        `https://www.themealdb.com/api/json/v1/1/${finalURL}`
-      )
+      await fetch(`https://www.themealdb.com/api/json/v1/1/${finalURL}`)
         .then((response) => response.json())
         .then((foods) => {
           setFoods(foods.meals);
@@ -40,8 +51,13 @@ const FoodList = ({ area, category, textBar, ingredient, searchType }) => {
     >
       {foods?.length ? (
         <>
-          {foods.map(({ strMeal, strMealThumb }) => (
-            <FoodCard imgUrl={strMealThumb} key={strMeal} name={strMeal} />
+          {foods.map(({ strMeal, strMealThumb, idMeal }) => (
+            <FoodCard
+              imgUrl={strMealThumb}
+              key={strMeal}
+              name={strMeal}
+              onClick={() => handleCardClick(idMeal)}
+            />
           ))}
         </>
       ) : (

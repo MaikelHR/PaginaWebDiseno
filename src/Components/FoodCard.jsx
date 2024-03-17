@@ -5,10 +5,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
-const FoodCard = ({imgUrl, name}) => {
+const FoodCard = ({imgUrl, name, onClick}) => {
   return (
     <Card sx={{ width: 345, marginBottom: "2em" }}>
-      <CardActionArea>
+      <CardActionArea onClick={onClick}>
         <CardMedia
           component="img"
           height="140"

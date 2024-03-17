@@ -87,7 +87,6 @@ const Filters = ({
     <Box
       display={"flex"}
       width={"60%"}
-      justifyContent={"space-between"}
       alignContent={"center"}
     >
       <SimpleSelect
@@ -96,50 +95,52 @@ const Filters = ({
         label={"Search Type"}
         options={searchTypeOptions}
       />
-      {searchType === "name" && (
-        <>
-          <TextBar
-            value={textValue}
-            onChange={(e) => setTextValue(e.target.value)}
+      <Box marginLeft={"1rem"}>
+        {searchType === "name" && (
+          <>
+            <TextBar
+              value={textValue}
+              onChange={(e) => setTextValue(e.target.value)}
+            />
+            <Button
+              color="primary"
+              size="medium"
+              variant="contained"
+              sx={{ marginY: "1rem" }}
+              onClick={() => handleFilterChange(textValue, "textBar")}
+            >
+              Search
+            </Button>
+          </>
+        )}
+        {searchType === "category" && (
+          <SimpleSelect
+            value={category}
+            onChange={(e) => handleFilterChange(e, "category")}
+            label={"Category"}
+            options={categories}
+            minWidth={200}
           />
-          <Button
-            color="primary"
-            size="medium"
-            variant="contained"
-            sx={{ marginY: "1rem" }}
-            onClick={() => handleFilterChange(textValue, "textBar")}
-          >
-            Apply
-          </Button>
-        </>
-      )}
-      {searchType === "category" && (
-        <SimpleSelect
-          value={category}
-          onChange={(e) => handleFilterChange(e, "category")}
-          label={"Category"}
-          options={categories}
-          minWidth={200}
-        />
-      )}
-      {searchType === "area" && (
-        <SimpleSelect
-          value={area}
-          onChange={(e) => handleFilterChange(e, "area")}
-          label={"Area"}
-          options={areas}
-          minWidth={200}
-        />
-      )}
-      {searchType === "ingredient" && (
-        <SimpleSelect
-          value={ingredient}
-          onChange={(e) => handleFilterChange(e, "ingredient")}
-          label={"Ingredient"}
-          options={ingredients}
-          minWidth={200}
-        />
-      )}
+        )}
+        {searchType === "area" && (
+          <SimpleSelect
+            value={area}
+            onChange={(e) => handleFilterChange(e, "area")}
+            label={"Area"}
+            options={areas}
+            minWidth={200}
+          />
+        )}
+        {searchType === "ingredient" && (
+          <SimpleSelect
+            value={ingredient}
+            onChange={(e) => handleFilterChange(e, "ingredient")}
+            label={"Ingredient"}
+            options={ingredients}
+            minWidth={200}
+          />
+        )}
+      </Box>
     </Box>
   );
 };

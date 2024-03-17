@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import SimpleSelect from "./SimpleSelect";
 import TextBar from "./TextBar";
+import { Button } from "@mui/material";
 
 const searchTypeOptions = [
   { label: "Name", value: "name" },
@@ -10,30 +11,20 @@ const searchTypeOptions = [
   { label: "Area", value: "area" },
 ];
 
-const Filters = () => {
-  const [searchType, setSearchType] = useState("name");
-  const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [area, setArea] = useState("");
-  const [areas, setAreas] = useState([]);
-  const [textBar, setTextBar] = useState("");
-  const [ingredient, setIngredient] = useState("");
-  const [ingredients, setIngredients] = useState([]);
-
-  const handleFilterChange = (e, filter) => {
-    if (filter === "searchType") {
-      setSearchType(e.target.value);
-    } else if (filter === "category") {
-      setCategory(e.target.value);
-    } else if (filter === "area") {
-      setArea(e.target.value);
-    } else if (filter === "textBar") {
-      setTextBar(e.target.value);
-    } else if (filter === "ingredient") {
-      setIngredient(e.target.value);
-    }
-  };
-
+const Filters = ({
+  searchType,
+  category,
+  categories,
+  setCategories,
+  area,
+  areas,
+  setAreas,
+  ingredient,
+  ingredients,
+  setIngredients,
+  handleFilterChange,
+}) => {
+  const [textValue, setTextValue] = useState("");
   useEffect(() => {
     async function getAreas() {
       await fetch("https://www.themealdb.com/api/json/v1/1/list.php?a=list")
@@ -80,7 +71,7 @@ const Filters = () => {
           const formattedIngredients = ingredients.meals.map(
             ({ strIngredient }) => ({
               label: strIngredient,
-              value: strIngredient.replace(" ","_"),
+              value: strIngredient.replace(" ", "_"),
             })
           );
           setIngredients(formattedIngredients);
@@ -93,7 +84,12 @@ const Filters = () => {
   }, []);
 
   return (
-    <Box>
+    <Box
+      display={"flex"}
+      width={"60%"}
+      justifyContent={"space-between"}
+      alignContent={"center"}
+    >
       <SimpleSelect
         value={searchType}
         onChange={(e) => handleFilterChange(e, "searchType")}
@@ -101,10 +97,21 @@ const Filters = () => {
         options={searchTypeOptions}
       />
       {searchType === "name" && (
-        <TextBar
-          value={textBar}
-          onChange={(e) => handleFilterChange(e, "textBar")}
-        />
+        <>
+          <TextBar
+            value={textValue}
+            onChange={(e) => setTextValue(e.target.value)}
+          />
+          <Button
+            color="primary"
+            size="medium"
+            variant="contained"
+            sx={{ marginY: "1rem" }}
+            onClick={() => handleFilterChange(textValue, "textBar")}
+          >
+            Apply
+          </Button>
+        </>
       )}
       {searchType === "category" && (
         <SimpleSelect

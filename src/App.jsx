@@ -1,16 +1,11 @@
-import { useState } from "react";
 
 import "./App.css";
-import Filtros from "./Components/Filters";
-import { Box } from "@mui/material";
-import FoodList from "./Components/FoodList";
+import FoodContainer from "./Components/FoodContainer";
+
 
 function App() {
   return (
-    <Box>
-      <Filtros />
-      <FoodList />
-    </Box>
+    <FoodContainer />
   );
 }   
 
